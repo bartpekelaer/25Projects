@@ -1,4 +1,4 @@
-from player import HumanPlayer, RandomComputerPlayer
+from player import HumanPlayer, RandomComputerPlayer, SuperComputerPlayer
 import math
 import time
 
@@ -88,14 +88,29 @@ def play(game, x_player, o_player, print_game=True):
 
             letter = "O" if letter == "X" else "X"
 
-        time.sleep(0.8)
+        if print_game:
+            time.sleep(0.8)
 
     if print_game:
         print("It's a tie!")
 
 
 if __name__ == "__main__":
-    x_player = HumanPlayer("X")
-    o_player = RandomComputerPlayer("O")
-    t = TicTacToe()
-    play(t, x_player, o_player, print_game=True)
+    x_wins = 0
+    o_wins = 0
+    ties = 0
+    itterations = 1000
+    for _ in range(itterations):
+        x_player = RandomComputerPlayer("X")
+        o_player = SuperComputerPlayer("O")
+        t = TicTacToe()
+        result = play(t, x_player, o_player, print_game=False)
+        if result == "X":
+            x_wins += 1
+        elif result == "O":
+            o_wins += 1
+        else:
+            ties += 1
+    print(
+        f"After {itterations} itterrations, we see {x_wins} Random wins, {o_wins} Super wins and {ties} ties."
+    )
